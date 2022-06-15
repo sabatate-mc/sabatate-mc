@@ -32,19 +32,23 @@ export class MincecraftServer {
     })
     let errorFlag = false
     serverProcess.stdout?.on('error', () => (errorFlag = true))
-    serverProcess.stderr?.on('data', () => (errorFlag = true))
+
+    const stdio = createInterface({
+      input: serverProcess.stdout,
+      output: serverProcess.stdin
+    })
+
+    for await (const line of stdio) {
+      if (this.doneRegExp.test(line)) {
+        break
+      }
+    }
 
     this.stdio = createInterface({
       input: serverProcess.stdout,
       output: serverProcess.stdin
     })
     this.serverProcess = serverProcess
-
-    for await (const line of this.stdio) {
-      if (this.doneRegExp.test(line)) {
-        break
-      }
-    }
 
     if (errorFlag) {
       throw new Error('Failed to start Minecraft server')
