@@ -1,0 +1,25 @@
+# すべてをignore
+*
+# すべてのディレクトリをホワイトリストに追加する
+!*/
+
+# git関連
+!/.gitignore
+!/.gitattributes
+
+# 設定ファイル
+!/banned-ips.json
+!/banned-players.json
+!/eula.txt
+!/ops.json
+!/server.properties
+!/usercache.json
+!/whitelist.json
+
+# ワールドディレクトリ
+!/world/**/*
+!/world_nether/**/*
+!/world_the_end/**/*
+
+# Modディレクトリ
+!/mods/**/*
