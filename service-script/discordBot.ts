@@ -73,6 +73,7 @@ export class DiscordBot {
         await interaction.reply('コマンドはBot用チャンネルで利用してください。')
         return
       }
+      await interaction.reply('restart コマンドを受け取りました。')
       callback()
     })
   }
