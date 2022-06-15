@@ -4,7 +4,7 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=/home/ubuntu/.nvm/versions/node/v18.3.0/bin/npm start
+ExecStart=/home/ubuntu/ubuntu/sabatate-mc/service-script/start.sh
 WorkingDirectory=/home/ubuntu/sabatate-mc/service-script
 KillMode=process
 Restart=no
