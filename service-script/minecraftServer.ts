@@ -1,5 +1,6 @@
 import { ChildProcess, spawn } from 'node:child_process'
 import { Interface, createInterface } from 'node:readline'
+import { PassThrough } from 'node:stream'
 
 const minecraftServerJar = process.env.MINECRAFT_SERVER_JAR as string
 const minecraftShutdownTime = parseInt(
@@ -33,8 +34,13 @@ export class MincecraftServer {
     let errorFlag = false
     serverProcess.stdout?.on('error', () => (errorFlag = true))
 
+    const streamOut1 = new PassThrough()
+    const streamOut2 = new PassThrough()
+    serverProcess.stdout?.pipe(streamOut1)
+    serverProcess.stdout?.pipe(streamOut2)
+
     const rl = createInterface({
-      input: serverProcess.stdout,
+      input: streamOut1,
       output: serverProcess.stdin
     })
 
@@ -45,7 +51,7 @@ export class MincecraftServer {
     }
 
     this.stdio = createInterface({
-      input: serverProcess.stdout,
+      input: streamOut2,
       output: serverProcess.stdin
     })
     this.serverProcess = serverProcess
