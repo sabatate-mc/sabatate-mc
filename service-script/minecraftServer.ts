@@ -25,7 +25,10 @@ export class MincecraftServer {
     const serverProcess = spawn(
       'java',
       ['-Xmx4G', '-Xms1G', '-jar', minecraftServerJar, 'nogui'],
-      { stdio: ['pipe', 'pipe', 'inherit'] }
+      {
+        stdio: ['pipe', 'pipe', 'inherit'],
+        cwd: '../minecraft'
+      }
     )
     serverProcess.stdout?.on('end', () => {
       this.endFlag = true
