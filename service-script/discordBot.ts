@@ -68,7 +68,8 @@ export class DiscordBot {
   onRestartCommand(callback: () => Promise<void>) {
     this.client.on('interactionCreate', async (interaction) => {
       if (!interaction.isCommand()) return
-      if (interaction.commandName !== 'restart') return
+      if (interaction.commandName !== 'sabatate') return
+      if (interaction.options.data[0].name !== 'restart') return
       if (interaction.channelId !== discordBotChannelId) {
         await interaction.reply('コマンドはBot用チャンネルで利用してください。')
         return

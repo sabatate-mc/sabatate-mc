@@ -32,8 +32,31 @@ process.once('SIGTERM', async () => {
 discord.onRestartCommand(async () => {
   await discord.message('Minecraft サーバーを再起動します.....。')
   await minecraft.stop()
-  await minecraft.start()
-  await discord.message('Minecraft サーバーが再起動しました。')
+  await discord.message('Minecraft サーバーが終了しました。')
+
+  await discord.message('GitHubと同期をしています.....。')
+  try {
+    await git.save()
+    await discord.message('GitHub同期を完了しました。')
+  } catch {
+    await discord.error(
+      'GitHubとの同期を完了できませんでした。\n' +
+        'サーバーの管理者に連絡をしてください。'
+    )
+  }
+
+  await discord.message('Minecraft サーバーを再起動します.....。')
+  try {
+    await minecraft.start()
+  } catch {
+    await minecraft.stop()
+    await discord.error(
+      'Minecraft サーバーの起動に失敗しました。\n' +
+        'サーバーの管理者に連絡をしてください。'
+    )
+    return
+  }
+  await discord.serverStartMessage()
 })
 
 async function main() {

@@ -12,6 +12,7 @@ export class GitManager {
 
   async save() {
     await this.git.checkout(worldBranch)
+    await this.git.pull('origin', worldBranch)
     await this.git.add([
       '../minecraft/world/',
       '../minecraft/world_nether/',
