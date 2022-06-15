@@ -24,7 +24,7 @@ export class MincecraftServer {
     const serverProcess = spawn(
       'java',
       ['-Xmx4G', '-Xms1G', '-jar', minecraftServerJar, 'nogui'],
-      { stdio: ['pipe'] }
+      { stdio: ['pipe', 'pipe', 'inherit'] }
     )
     serverProcess.stdout?.on('end', () => {
       this.endFlag = true
@@ -33,12 +33,12 @@ export class MincecraftServer {
     let errorFlag = false
     serverProcess.stdout?.on('error', () => (errorFlag = true))
 
-    const stdio = createInterface({
+    const rl = createInterface({
       input: serverProcess.stdout,
       output: serverProcess.stdin
     })
 
-    for await (const line of stdio) {
+    for await (const line of rl) {
       if (this.doneRegExp.test(line)) {
         break
       }
