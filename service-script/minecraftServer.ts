@@ -53,8 +53,7 @@ export class MincecraftServer {
     }
 
     this.stdio = createInterface({
-      input: streamOut2,
-      output: serverProcess.stdin
+      input: streamOut2
     })
     this.serverProcess = serverProcess
 
@@ -69,7 +68,7 @@ export class MincecraftServer {
     this.runningFlag = true
     while (this.runningFlag) {
       await new Promise((resolve, _reject) => setTimeout(resolve, 15000))
-      this.stdio?.write('list\n')
+      this.serverProcess?.stdin?.write('list\n')
     }
   }
 
