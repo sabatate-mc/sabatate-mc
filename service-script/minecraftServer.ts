@@ -101,7 +101,7 @@ export class MincecraftServer {
         resolve()
       }
       this.onEnd = () => resolve()
-      this.serverProcess?.stdin?.write('list\n')
+      this.serverProcess?.stdin?.write('stop\n')
     })
   }
 }
