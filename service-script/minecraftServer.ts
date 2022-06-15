@@ -43,8 +43,7 @@ export class MincecraftServer {
     serverProcess.stdout?.pipe(streamOut2)
 
     const rl = createInterface({
-      input: streamOut1,
-      output: serverProcess.stdin
+      input: streamOut1
     })
 
     for await (const line of rl) {
