@@ -6,7 +6,7 @@ After=syslog.target network.target
 Type=simple
 ExecStart=/home/ubuntu/sabatate-mc/service-script/start.sh
 WorkingDirectory=/home/ubuntu/sabatate-mc/service-script
-KillMode=process
+KillMode=control-group
 Restart=no
 
 [Install]
