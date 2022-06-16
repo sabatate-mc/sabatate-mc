@@ -79,6 +79,7 @@ export class MincecraftServer {
   async monitor() {
     if (this.stdio === null) return
     do {
+      await new Promise((resolve, _reject) => setTimeout(resolve, 1000))
       for await (const line of this.stdio) {
         const match = line.match(this.monitorRegExp)
         if (match === null) continue
@@ -97,7 +98,6 @@ export class MincecraftServer {
           break
         }
       }
-      await new Promise((resolve, _reject) => setTimeout(resolve, 1000))
     } while (this.restartingFlag)
   }
 
