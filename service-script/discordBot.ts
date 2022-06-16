@@ -50,7 +50,7 @@ export class DiscordBot {
       .addFields([
         { name: 'ip address', value: minecraftServerIp },
         { name: 'Minecraft Version', value: '1.19' },
-        { name: 'Fabric Version', value: '0.14.7' }
+        { name: 'Fabric Version', value: '0.14.8' }
       ])
       .setTimestamp()
     await this.channel?.send({ embeds: [embed] })
