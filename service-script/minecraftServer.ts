@@ -12,6 +12,7 @@ export class MincecraftServer {
   private stdio: Interface | null = null
   private runningFlag = false
   private endFlag = false
+  private restartingFlag = false
   private onEnd = () => {}
   private doneRegExp = /\[\d\d:\d\d:\d\d\] \[Server thread\/INFO\]: Done/
   private monitorRegExp =
@@ -62,6 +63,7 @@ export class MincecraftServer {
     }
 
     this.lastPlayerOnlineTime = new Date()
+    this.restartingFlag = false
 
     this.startSendList()
   }
@@ -76,24 +78,27 @@ export class MincecraftServer {
 
   async monitor() {
     if (this.stdio === null) return
-    for await (const line of this.stdio) {
-      const match = line.match(this.monitorRegExp)
-      if (match === null) continue
+    do {
+      for await (const line of this.stdio) {
+        const match = line.match(this.monitorRegExp)
+        if (match === null) continue
 
-      const players = parseInt(match[1])
-      if (players !== 0) {
-        this.lastPlayerOnlineTime = new Date()
-        continue
-      }
+        const players = parseInt(match[1])
+        if (players !== 0) {
+          this.lastPlayerOnlineTime = new Date()
+          continue
+        }
 
-      const now = new Date()
-      if (
-        now.getTime() - this.lastPlayerOnlineTime.getTime() >
-        minecraftShutdownTime
-      ) {
-        break
+        const now = new Date()
+        if (
+          now.getTime() - this.lastPlayerOnlineTime.getTime() >
+          minecraftShutdownTime
+        ) {
+          break
+        }
       }
-    }
+      await new Promise((resolve, _reject) => setTimeout(resolve, 1000))
+    } while (this.restartingFlag)
   }
 
   stop(): Promise<void> {
@@ -105,5 +110,10 @@ export class MincecraftServer {
       this.onEnd = () => resolve()
       this.serverProcess?.stdin?.write('stop\n')
     })
+  }
+
+  async restartStop(): Promise<void> {
+    this.restartingFlag = true
+    await this.stop()
   }
 }
