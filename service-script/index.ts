@@ -63,21 +63,6 @@ async function main() {
   try {
     await discord.login()
 
-    await discord.message(
-      'GitHubから最新のセーブデータとModを取得します.....。'
-    )
-    try {
-      await git.load()
-      await discord.message('GitHubからデータを読み込みました。')
-    } catch {
-      await discord.error(
-        'GitHubから最新のセーブデータとModを取得できませんでした。\n' +
-          '引き続き以前のセーブデータでサーバーを起動しますが、\n' +
-          '最新のMod状態などが反映されません。\n' +
-          'サーバーの管理者に連絡をしてください。'
-      )
-    }
-
     await discord.message('Minecraft サーバーを起動します.....。')
     try {
       await minecraft.start()

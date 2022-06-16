@@ -18,7 +18,11 @@ export class GitManager {
       '../minecraft/world_nether/',
       '../minecraft/world_the_end/'
     ])
-    await this.git.commit(`save at ${new Date().toISOString()}`)
+    try {
+      await this.git.commit(`save at ${new Date().toISOString()}`)
+    } catch {
+      console.log('nothing to commit')
+    }
     await this.git.push('origin', worldBranch)
   }
 }
