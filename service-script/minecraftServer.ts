@@ -61,6 +61,8 @@ export class MincecraftServer {
       throw new Error('Failed to start Minecraft server')
     }
 
+    this.lastPlayerOnlineTime = new Date()
+
     this.startSendList()
   }
 
