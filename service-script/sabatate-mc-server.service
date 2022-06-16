@@ -4,6 +4,7 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
+ExecStartPre=/usr/bin/git pull origin world-v1
 ExecStart=/home/ubuntu/sabatate-mc/service-script/start.sh
 WorkingDirectory=/home/ubuntu/sabatate-mc/service-script
 KillMode=control-group
