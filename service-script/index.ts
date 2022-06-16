@@ -31,7 +31,7 @@ process.once('SIGTERM', async () => {
 
 discord.onRestartCommand(async () => {
   await discord.message('Minecraft サーバーを再起動します.....。')
-  await minecraft.stop()
+  await minecraft.restartStop()
   await discord.message('Minecraft サーバーが終了しました。')
 
   await discord.message('GitHubと同期をしています.....。')
