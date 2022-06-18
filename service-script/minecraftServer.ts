@@ -81,6 +81,7 @@ export class MincecraftServer {
     do {
       await new Promise((resolve, _reject) => setTimeout(resolve, 1000))
       for await (const line of this.stdio) {
+        console.log(line)
         const match = line.match(this.monitorRegExp)
         if (match === null) continue
 
